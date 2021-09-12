@@ -7,18 +7,25 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 "A datetime and timezone string in ISO 8601 format `Y-m-dTH:i:sO`, e.g. `2020-04-20T13:53:12+02:00`."
 scalar DateTimeTz @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTimeTz")
 
+# ! means required 
+# @ indidcates a directive 
+
 type Query {
     users: [User!]! @paginate(defaultCount: 10)
     user(id: ID @eq): User @find
     posts: [Post!]! @all
     post(id: Int! @eq): Post @find
+    # Create a custom resolver
+    # Run this to generate the matching class, note the case rules
+    # php artisan lighthouse:query LatestPost 
+    latestPost: Post!
 }
 
 type User {
     id: ID!
     name: String!
     email: String!
-    created_at: DateTime!
+    created_at: DateTime! 
     updated_at: DateTime!
     posts: [Post!]! @hasMany
 }
